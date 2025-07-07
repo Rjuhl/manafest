@@ -1,5 +1,7 @@
+import "./App.css"
 import AppRouter from '@route/AppRouter'
 import { SessionDataProvider } from '@context/SessionDataContext';
+
 
 function App() {
   return (

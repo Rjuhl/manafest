@@ -9,7 +9,12 @@
     "paths": {
       "@page/*": ["src/pages/*"],
       "@route/*": ["src/routes/*"],
-      "@component/*": ["src/components/*"]
+      "@component/*": ["src/components/*"],
+      "@interface/*": ["src/interfaces/*"],
+      "@context/*": ["src/contexts/*"],
+      "@util/*": ["src/utils/*"],
+      "@asset/*": ["src/assets/*"],
+      "@hook/*": ["src/hooks/*"],
     }
   }
 }

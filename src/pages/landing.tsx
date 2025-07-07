@@ -2,42 +2,82 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import NewUserReponse from '@interface/NewUserReponse'
 import { useState, useEffect } from 'react';
 import { useSessionData } from '@context/SessionDataContext';
+import { emitWithAck } from '@util/SocketHelpers'
+import PageRouterHook from "@hook/page_router";
+import generateUniqueId from '@util/generateids';
 
 export default function Landing() {
     const { sessionData, setSessionValue, clearSessionData } = useSessionData();
     const [displayName, setDisplayName] = useState('');
+    const [gameId, setGameId] = useState('');
     const [error, setError] = useState<string | null>(null);
 
+    PageRouterHook('landing');
 
-    // useEffect(() => {
-
-    //     return () => {
-    //     };
-    // }, [sessionData]);
-
-
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-        // Add check to make sure username is unique 
-        if (!displayName.trim()) {
-            setError('Display name is required');
-        } else if (displayName.trim().length > 16) {
-            setError('Must be less than or equal to 16 characters');
-        } else {
-            setError(null);
-            setSessionValue('username', displayName.trim());
+        const name = displayName.trim()
+        try {
+            const response = await emitWithAck<NewUserReponse>('new-user', { name });
+            if (!name) {
+                setError('Display name is required');
+            } else if (name.length > 16) {
+                setError('Must be less than or equal to 16 characters');
+            } else {
+                if (response.status !== 200) {
+                    setError(response.message);
+                } else {
+                    setError(null);
+                    setSessionValue('username', name);
+                }
+            }
+        } catch (err: any) {
+            setError('Server side error');
         }
+       
     };
+
+    const handleCreateGame = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const roomId = generateUniqueId();
+        console.log("create game clicked")
+        const response = await emitWithAck<NewUserReponse>('create-game', { gameId: roomId });
+        console.log(response);
+        if (response.status !== 200) {
+            setError(response.message)
+        } else {
+            setSessionValue('roomId', roomId);
+            setError(null);
+        }
+    }
+
+    const handleJoinGame = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const response = await emitWithAck<NewUserReponse>('join-game', { gameId: gameId });
+        if (response.status !== 200) {
+            setError(response.message);
+        } else {
+            setSessionValue('roomId', gameId);
+            setError(null);
+        }
+    }
 
     const joinGameUI = () => (
         <Box key="joinGameUI" maxWidth={400} width="100%">
             <Stack spacing={2}>
-                <TextField label="Game code" variant="standard" fullWidth />
-                <Button variant="contained" size="large" fullWidth> Join Game </Button>
-                <Button variant="outlined" size="large" fullWidth> Create Game </Button>
+                <TextField 
+                    label="Game code" 
+                    onChange={(e) => setGameId(e.target.value)} 
+                    variant="standard" 
+                    fullWidth 
+                    error={!!error}
+                    helperText={error || ' '}
+                />
+                <Button variant="contained" size="large" onClick={handleJoinGame} fullWidth> Join Game </Button>
+                <Button variant="outlined" size="large" onClick={handleCreateGame} fullWidth> Create Game </Button>
             </Stack>
         </Box>
     );
@@ -60,8 +100,6 @@ export default function Landing() {
         </form>
     </Box>
   );
-
-  console.log("usermame: ", sessionData.username)
 
   return (
     <Box

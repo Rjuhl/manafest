@@ -12,7 +12,9 @@ export default defineConfig({
       '@component': path.resolve(__dirname, 'src/components'),
       '@context': path.resolve(__dirname, 'src/contexts'),
       '@interface': path.resolve(__dirname, 'src/interfaces'),
-      '@asset': path.resolve(__dirname, 'src/assets')
+      '@asset': path.resolve(__dirname, 'src/assets'),
+      '@util': path.resolve(__dirname, 'src/utils'),
+      '@hook': path.resolve(__dirname, 'src/hooks')
     }
   },
 })
