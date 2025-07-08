@@ -9,15 +9,6 @@ import socket from '@util/socket';
 export default function AppRouter() {
     const { sessionData, setSessionValue, clearSessionData } = useSessionData();
 
-    // useEffect(() => {
-    //     socket.connect();
-    //     if (sessionData.username !== "") {
-    //         socket.emit('rejoin', sessionData.username);
-    //     } 
-    //     return () => {
-    //     };
-    // }, []);
-
     const Layout = () => {
         return (
             <>

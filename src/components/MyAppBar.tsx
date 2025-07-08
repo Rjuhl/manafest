@@ -7,16 +7,23 @@ import Button from '@mui/material/Button';
 import { blue } from '@mui/material/colors';
 import { useSessionData } from '@context/SessionDataContext';
 import { useState, useEffect } from 'react';
+import socket from '@util/socket'
 
 export default function MyAppBar() {
-    const { sessionData, clearSessionData } = useSessionData();
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        clearSessionData();
-    }
+    const { sessionData, setSessionValue, clearSessionData } = useSessionData();
 
     const handleLeaveRoom = (e: React.FormEvent) => {
         e.preventDefault();
+        socket.emit('leave-game');
+        setSessionValue('roomId', undefined);
+    }
+
+    const handleLogOut = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (sessionData.roomId !== undefined || sessionData.roomId !== "") {
+            socket.emit('leave-game');
+        }
+        clearSessionData();
     }
 
     return (
@@ -51,7 +58,7 @@ export default function MyAppBar() {
                             </Typography>
                         }
                         {sessionData.username && 
-                            <Button variant="outlined" color="error" onClick={handleSubmit}> Log out </Button>
+                            <Button variant="outlined" color="error" onClick={handleLogOut}> Log out </Button>
                         }
                     </Stack>
                 </Toolbar>

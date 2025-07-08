@@ -29,9 +29,16 @@ export default function GameRoom() {
     PageRouterHook('game-room');
 
     useEffect(() => {
+        if (sessionData.username in gameData.players) {
+            if (gameData.players[sessionData.username].status === 0) setBidding(true); 
+            if (gameData.players[sessionData.username].status === 2) setBidding(false);
+        }
+    }, [gameData])
+
+    useEffect(() => {
         if (sessionData.username in gameData.players) console.log(gameData.players[sessionData.username].status);
-        socket.on('game-update', (newGameData: GameData) => {
-            setGameData(newGameData);
+        socket.on('game-update', (newGameData: {data: GameData }) => {
+            setGameData(newGameData.data);
         })
 
         socket.on('bid-started', () => {
@@ -46,6 +53,11 @@ export default function GameRoom() {
 
         const el = scrollRef.current
         if (el) el.scrollTop = el.scrollHeight
+
+        console.log(gameData.players);
+        if (sessionData.username in gameData.players) {
+            console.log(gameData.players[sessionData.username].status);
+        }
 
         return () => {
             socket.off('game-update');
@@ -139,7 +151,7 @@ export default function GameRoom() {
             ref={scrollRef}
             flex={1}
             sx={{
-            height: '100%',
+            height: '98%',
             overflowY: 'scroll',
             p: 2,
             '&::-webkit-scrollbar': {
