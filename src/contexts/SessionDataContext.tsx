@@ -5,7 +5,7 @@ import React, {
   useState,
 } from 'react';
 import type { ReactNode } from 'react';
-import { SessionData } from '@interface/SessionData';
+import type { SessionData } from '@interface/SessionData';
 
 
 interface SessionDataContextType {
@@ -38,7 +38,7 @@ export const SessionDataProvider: React.FC<SessionDataProviderProps> = ({ childr
   };
 
   const clearSessionData = () => {
-    setSessionData({ username: '', isLoggedIn: false });
+    setSessionData({ username: '', roomId: ''});
     sessionStorage.removeItem('sessionData');
   };
 

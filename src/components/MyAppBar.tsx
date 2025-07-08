@@ -6,7 +6,6 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button';
 import { blue } from '@mui/material/colors';
 import { useSessionData } from '@context/SessionDataContext';
-import { useState, useEffect } from 'react';
 import socket from '@util/socket'
 
 export default function MyAppBar() {

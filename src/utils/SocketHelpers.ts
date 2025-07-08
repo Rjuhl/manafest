@@ -15,21 +15,3 @@ export function emitWithAck<T = any>(
     });
   });
 }
-
-
-// const handleSubmit = async () => {
-//   try {
-//     const response = await emitWithAck(socket, 'join-game', { code: 'XYZ123' });
-//     console.log('Server response:', response);
-//   } catch (err) {
-//     console.error('Socket timeout or error:', err);
-//   }
-// };
-
-// socket.on('join-game', (data, callback) => {
-//   if (isValidGameCode(data.code)) {
-//     callback({ success: true, message: 'Joined!' });
-//   } else {
-//     callback({ success: false, message: 'Invalid code' });
-//   }
-// });

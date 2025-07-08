@@ -2,13 +2,8 @@ import Landing from "@page/landing"
 import GameRoom from "@page/gameroom";
 import MyAppBar from "@component/MyAppBar"
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
-import { useSessionData } from '@context/SessionDataContext';
-import { useState, useEffect } from 'react';
-import socket from '@util/socket';
 
 export default function AppRouter() {
-    const { sessionData, setSessionValue, clearSessionData } = useSessionData();
-
     const Layout = () => {
         return (
             <>

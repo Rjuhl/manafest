@@ -3,12 +3,11 @@ import {
   Card,
   CardContent,
   Typography,
-  Box,
   Stack,
   Chip,
 } from '@mui/material';
 import { Star, MonetizationOn } from '@mui/icons-material';
-import { PlayerData } from '@interface/GameData';
+import type { PlayerData } from '@interface/GameData';
 
 interface PlayerCardProps {
   player: PlayerData;

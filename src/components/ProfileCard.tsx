@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Card,
-  CardContent,
   Typography,
   Button,
   Box,
@@ -18,7 +17,7 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ user, gold, isAdmin }) => {
-  const [currentGold, setCurrentGold] = useState<number>(gold);
+  const [currentGold, _] = useState<number>(gold);
 
   const changeGold = (amount: number) => {
     socket.emit('add-gold', { gold: amount });

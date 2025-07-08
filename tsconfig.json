@@ -5,16 +5,17 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "baseUrl": "src",
     "paths": {
-      "@page/*": ["src/pages/*"],
-      "@route/*": ["src/routes/*"],
-      "@component/*": ["src/components/*"],
-      "@interface/*": ["src/interfaces/*"],
-      "@context/*": ["src/contexts/*"],
-      "@util/*": ["src/utils/*"],
-      "@asset/*": ["src/assets/*"],
-      "@hook/*": ["src/hooks/*"],
+      "@page/*": ["pages/*"],
+      "@route/*": ["routes/*"],
+      "@component/*": ["components/*"],
+      "@interface/*": ["interfaces/*"],
+      "@context/*": ["contexts/*"],
+      "@util/*": ["utils/*"],
+      "@asset/*": ["assets/*"],
+      "@hook/*": ["hooks/*"],
     }
   }
 }

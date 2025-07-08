@@ -2,18 +2,18 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import NewUserReponse from '@interface/NewUserReponse'
-import { useState, useEffect } from 'react';
+import type NewUserReponse from '@interface/NewUserReponse'
+import { useState } from 'react';
 import { useSessionData } from '@context/SessionDataContext';
 import { emitWithAck } from '@util/SocketHelpers'
 import PageRouterHook from "@hook/page_router";
 import generateUniqueId from '@util/generateids';
 
 export default function Landing() {
-    const { sessionData, setSessionValue, clearSessionData } = useSessionData();
+    const { sessionData, setSessionValue } = useSessionData();
     const [displayName, setDisplayName] = useState('');
     const [gameId, setGameId] = useState('');
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null | undefined>(null);
 
     PageRouterHook('landing');
 

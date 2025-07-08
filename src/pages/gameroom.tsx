@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography, Paper } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import PageRouterHook from '@hook/page_router';
 import { useSessionData } from '@context/SessionDataContext';
@@ -10,14 +10,14 @@ import Grid from '@mui/material/Grid';
 import ProfileCard from '@component/ProfileCard';
 import socket from '@util/socket';
 import { emitWithAck } from '@util/SocketHelpers'
-import NewUserReponse from '@interface/NewUserReponse'
+import type NewUserReponse from '@interface/NewUserReponse'
 import BidCard from '@component/BidCard';
 
 
 export default function GameRoom() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [bidding, setBidding] = useState(false);
-  const { sessionData, setSessionValue, clearSessionData } = useSessionData();
+  const { sessionData } = useSessionData();
   const [gameData, setGameData] = useState<GameData>({
     ledger: [],
     players: {},
@@ -29,14 +29,14 @@ export default function GameRoom() {
     PageRouterHook('game-room');
 
     useEffect(() => {
-        if (sessionData.username in gameData.players) {
-            if (gameData.players[sessionData.username].status === 0) setBidding(true); 
-            if (gameData.players[sessionData.username].status === 2) setBidding(false);
+        if ((sessionData.username ?? '') in gameData.players) {
+            if (gameData.players[(sessionData.username ?? '')].status === 0) setBidding(true); 
+            if (gameData.players[(sessionData.username ?? '')].status === 2) setBidding(false);
         }
     }, [gameData])
 
     useEffect(() => {
-        if (sessionData.username in gameData.players) console.log(gameData.players[sessionData.username].status);
+        if ((sessionData.username ?? '') in gameData.players) console.log(gameData.players[(sessionData.username ?? '')].status);
         socket.on('game-update', (newGameData: {data: GameData }) => {
             setGameData(newGameData.data);
         })
@@ -55,8 +55,8 @@ export default function GameRoom() {
         if (el) el.scrollTop = el.scrollHeight
 
         console.log(gameData.players);
-        if (sessionData.username in gameData.players) {
-            console.log(gameData.players[sessionData.username].status);
+        if ((sessionData.username ?? '') in gameData.players) {
+            console.log(gameData.players[(sessionData.username ?? '')].status);
         }
 
         return () => {
@@ -113,10 +113,10 @@ export default function GameRoom() {
             <Box flex={6} display="flex" justifyContent="center" alignItems="center">
                 <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" flex={1} height="60%" >
                     <ProfileCard 
-                        key={`${sessionData.username ?? "?!UNK?!"}${gameData.players[sessionData.username]?.gold ?? 0}${gameData.players[sessionData.username]?.isAdmin ?? false}`}
+                        key={`${sessionData.username ?? "?!UNK?!"}${gameData.players[(sessionData.username ?? '')]?.gold ?? 0}${gameData.players[(sessionData.username ?? '')]?.isAdmin ?? false}`}
                         user={sessionData.username ?? "?!UNK?!"}
-                        gold={gameData.players[sessionData.username]?.gold ?? 0}
-                        isAdmin={gameData.players[sessionData.username]?.isAdmin ?? false} 
+                        gold={gameData.players[(sessionData.username ?? '')]?.gold ?? 0}
+                        isAdmin={gameData.players[(sessionData.username ?? '')]?.isAdmin ?? false} 
                     />
                 </Box>
                 <Divider orientation="vertical" variant="middle" flexItem sx={{p:1}}/>
@@ -174,7 +174,7 @@ export default function GameRoom() {
         {
             bidding && 
             <div className="popup-overlay">
-                <BidCard maxBid={gameData.players[sessionData.username]?.gold ?? 0}/>
+                <BidCard maxBid={gameData.players[(sessionData.username ?? '')]?.gold ?? 0}/>
             </div>
         }
     </>

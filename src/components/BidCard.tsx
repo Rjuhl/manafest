@@ -1,6 +1,6 @@
 import { Paper, Typography, Button, Box } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import NewUserReponse from '@interface/NewUserReponse'
+import type NewUserReponse from '@interface/NewUserReponse'
 import { emitWithAck } from '@util/SocketHelpers'
 import { useState } from 'react';
 
