@@ -67,3 +67,32 @@ export default tseslint.config([
   },
 ])
 ```
+
+# Other Packages to Install
+
+These are the packages required to get this running on your local machine for testing and development.
+
+## Ensure package managers are up to date
+
+windows
+Node
+(node)[https://nodejs.org/en/download/]
+
+NPM
+'''npm install -f @npm/latest'''
+
+React
+'''npm install react-dom'''
+
+MUI
+'''npm install @mui/icons-material'''
+'''npm install @mui/material'''
+'''npm install @emotion/react'''
+'''npm install @emotion/styled'''
+
+TS
+'''npm install eslint'''
+
+If your linting is not working try this:
+'''npm install @types/react'''
+
